@@ -1,0 +1,63 @@
+version: '3'
+name: Inception
+services:
+  web:
+    build:
+      context: ./requirements/nginx
+    image: nginx:tspoof
+    container_name: nginx
+    networks:
+        - inception-net
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress:/var/www/html
+    depends_on:
+      - wordpress
+    restart: always
+
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+    image: mariadb:tspoof
+    container_name: mariadb
+    networks:
+        - inception-net
+    env_file: ../.env
+    volumes:
+     - mariadb:/var/lib/mysql
+    restart: always
+
+  wordpress:
+    build:
+      context: ./requirements/wordpress/
+    image: wordpress:tspoof
+    container_name: wordpress
+    networks:
+        - inception-net
+    env_file: ../.env
+    volumes:
+      - wordpress:/var/www/html
+    depends_on:
+      - mariadb
+    restart: always
+
+networks:
+    inception-net:
+
+volumes:
+  wordpress:
+    name: wordpress
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/stte/Documents/HIVE/huception/volumes/wordpress
+      o: bind
+
+  mariadb:
+    name: mariadb
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/stte/Documents/HIVE/huception/volumes/mariadb
+      o: bind
