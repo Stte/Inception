@@ -1,5 +1,5 @@
 YML_PATH = srcs/docker-compose.yml
-FILES_PATH = /home/stte/Documents/HIVE/huception/volumes
+FILES_PATH = /home/tspoof/data
 
 .PHONY: up down ps clean fclean prune re all reset info
 
