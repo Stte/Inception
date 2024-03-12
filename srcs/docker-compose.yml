@@ -1,5 +1,5 @@
 version: '3'
-name: Inception
+name: inception
 services:
   web:
     build:
